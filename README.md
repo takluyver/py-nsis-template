@@ -5,6 +5,11 @@ This is a template for an [NSIS](http://nsis.sourceforge.net/) installer for a P
 application. It bundles a copy of the Python interpreter, so you can make an installer
 to share with people who don't have Python installed.
 
+To make the example installer, download the [Python 3.3 MSI](http://python.org/ftp/python/3.3.2/python-3.3.2.msi),
+place it in this folder, and run `makensis installpy.nsi`. To customise it for your own
+use, modify `installpy.nsi`. The NSIS script format is
+[documented here](http://nsis.sourceforge.net/Docs/Contents.html).
+
 Using NSIS, it's also possible to make Windows installers from a Linux or Mac machine.
 
 This uses bits cribbed from the NSIS wiki page [Embedding other installers](http://nsis.sourceforge.net/Embedding_other_installers).
