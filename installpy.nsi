@@ -31,17 +31,27 @@ Section -SETTINGS
   SetOverwrite ifnewer
 SectionEnd
 
-Section "${PRODUCT_NAME}" sec_app
+Section "!${PRODUCT_NAME}" sec_app
+  SectionIn RO
   File ${SCRIPT}
   File ${PRODUCT_ICON}
   CreateShortCut "$SMPROGRAMS\${PRODUCT_NAME}.lnk" "pyw" '"$INSTDIR\${SCRIPT}"' \
       "$INSTDIR\${PRODUCT_ICON}"
+  WriteUninstaller $INSTDIR\uninstall.exe
 SectionEnd
 
 Section "Python ${PY_VERSION}" sec_py
   File "python-${PY_VERSION}.msi"
   ExecWait 'msiexec /i "$INSTDIR\python-${PY_VERSION}.msi" /qb ALLUSERS=1'
   Delete $INSTDIR\python-${PY_VERSION}.msi
+SectionEnd
+
+Section "Uninstall"
+  Delete $INSTDIR\uninstall.exe
+  Delete "$INSTDIR\${SCRIPT}"
+  Delete "$INSTDIR\${PRODUCT_ICON}"
+  Delete "$SMPROGRAMS\${PRODUCT_NAME}.lnk"
+  RMDir $INSTDIR
 SectionEnd
 
 ; Functions
