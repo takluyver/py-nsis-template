@@ -1,6 +1,9 @@
-!define PRODUCT_NAME "Py Deploy"
+!define PRODUCT_NAME "Py Example App"
 !define PRODUCT_VERSION "1.0"
+
 !define PY_VERSION "3.3.2"
+!define SCRIPT "example.py"
+!define PRODUCT_ICON "glossyorb.ico"
  
 SetCompressor lzma
 
@@ -19,13 +22,20 @@ SetCompressor lzma
 ; MUI end ------
 
 Name "${PRODUCT_NAME} ${PRODUCT_VERSION}"
-OutFile "PyDeploy.exe"
+OutFile "PyApp_install.exe"
 InstallDir "$PROGRAMFILES\${PRODUCT_NAME}"
 ShowInstDetails show
 
 Section -SETTINGS
   SetOutPath "$INSTDIR"
   SetOverwrite ifnewer
+SectionEnd
+
+Section "${PRODUCT_NAME}" sec_app
+  File ${SCRIPT}
+  File ${PRODUCT_ICON}
+  CreateShortCut "$SMPROGRAMS\${PRODUCT_NAME}.lnk" "pyw" '"$INSTDIR\${SCRIPT}"' \
+      "$INSTDIR\${PRODUCT_ICON}"
 SectionEnd
 
 Section "Python ${PY_VERSION}" sec_py
@@ -37,7 +47,7 @@ SectionEnd
 ; Functions
 
 Function .onMouseOverSection
-    ; Find the section we have moused over, and set the corresponding description.
+    ; Find which section the mouse is over, and set the corresponding description.
     FindWindow $R0 "#32770" "" $HWNDPARENT
     GetDlgItem $R0 $R0 1043 ; description item (must be added to the UI)
 
@@ -45,6 +55,6 @@ Function .onMouseOverSection
       SendMessage $R0 ${WM_SETTEXT} 0 "STR:The Python interpreter. \
             This is required for ${PRODUCT_NAME} to run."
 
-    ;StrCmp $0 1 "" +2
-    ;  SendMessage $R0 ${WM_SETTEXT} 0 "STR:second section description"
-  FunctionEnd
+    StrCmp $0 ${sec_app} "" +2
+      SendMessage $R0 ${WM_SETTEXT} 0 "STR:${PRODUCT_NAME}"
+FunctionEnd
