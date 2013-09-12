@@ -31,6 +31,12 @@ Section -SETTINGS
   SetOverwrite ifnewer
 SectionEnd
 
+Section "Python ${PY_VERSION}" sec_py
+  File "python-${PY_VERSION}.msi"
+  ExecWait 'msiexec /i "$INSTDIR\python-${PY_VERSION}.msi" /qb ALLUSERS=1'
+  Delete $INSTDIR\python-${PY_VERSION}.msi
+SectionEnd
+
 Section "!${PRODUCT_NAME}" sec_app
   SectionIn RO
   File ${SCRIPT}
@@ -51,12 +57,6 @@ Section "!${PRODUCT_NAME}" sec_app
                    "NoModify" 1
   WriteRegDWORD HKLM "Software\Microsoft\Windows\CurrentVersion\Uninstall\${PRODUCT_NAME}" \
                    "NoRepair" 1
-SectionEnd
-
-Section "Python ${PY_VERSION}" sec_py
-  File "python-${PY_VERSION}.msi"
-  ExecWait 'msiexec /i "$INSTDIR\python-${PY_VERSION}.msi" /qb ALLUSERS=1'
-  Delete $INSTDIR\python-${PY_VERSION}.msi
 SectionEnd
 
 Section "Uninstall"
