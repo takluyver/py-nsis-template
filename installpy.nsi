@@ -65,7 +65,7 @@ Section "Uninstall"
   Delete "$INSTDIR\${PRODUCT_ICON}"
   Delete "$SMPROGRAMS\${PRODUCT_NAME}.lnk"
   RMDir $INSTDIR
-  DeleteRegKey HKLM "Software\Microsoft\Windows\CurrentVersion\Uninstall\${PRODUCT_NAME}t"
+  DeleteRegKey HKLM "Software\Microsoft\Windows\CurrentVersion\Uninstall\${PRODUCT_NAME}"
 SectionEnd
 
 ; Functions
